@@ -258,12 +258,15 @@ inline static void _splitpath(char* path, const char* drive, const char* dir, co
     }
 }
 
+
+#ifndef __SWITCH__
 inline static char* strupr(char* str)
 {
     for (int i = 0; i < strlen(str); i++)
         str[i] = toupper(str[i]);
     return str;
 }
+#endif
 
 inline static void strrev(char* str)
 {

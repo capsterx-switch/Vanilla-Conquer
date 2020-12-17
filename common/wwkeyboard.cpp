@@ -528,12 +528,24 @@ bool WWKeyboardClass::Is_Buffer_Empty(void) const
  * HISTORY:                                                                                    *
  *   09/30/1996 JLB : Created.                                                                 *
  *=============================================================================================*/
+
+#ifdef __SWITCH__
+#include <switch/keymap.hpp>
+extern nswitch::Switch_Key_Map * Keymap;
+#endif
+
 void WWKeyboardClass::Fill_Buffer_From_System(void)
 {
 #ifdef SDL2_BUILD
     SDL_Event event;
 
     while (!Is_Buffer_Full() && SDL_PollEvent(&event)) {
+#ifdef __SWITCH__
+        if (Keymap->event(event))
+	{
+          continue;
+	}
+#endif
         unsigned short key;
         switch (event.type) {
         case SDL_QUIT:

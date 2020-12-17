@@ -300,6 +300,9 @@ bool Init_Game(int, char*[])
 
 #ifndef REMASTER_BUILD
     CCDebugString("C&C95 - About to search for CD drives\n");
+#ifdef __SWITCH__
+    CCFileClass::Set_Search_Drives("sdmc/switch/cnc");
+#endif
     /*
     **	Always try to look at the CD-ROM for data files.
     */
@@ -790,6 +793,7 @@ bool Select_Game(bool fade)
     bool process = true;     // false = break out of while loop
     bool display = true;
     CountDownTimerClass count;
+
 
     if (Special.IsFromInstall) {
         display = false;

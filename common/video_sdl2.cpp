@@ -87,9 +87,31 @@ SurfaceMonitorClass& AllSurfaces = AllSurfacesDummy; // List of all direct draw 
  * HISTORY:                                                                                    *
  *   09/26/1995 PWG : Created.                                                                 *
  *=============================================================================================*/
+#ifdef __SWITCH__
+#include <switch/joystick.hpp>
+#include <switch/keymap.hpp>
+nswitch::Switch_Key_Map * Keymap=nullptr;
+#endif
+
 bool Set_Video_Mode(int w, int h, int bits_per_pixel)
 {
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS
+#ifdef __SWITCH__
+	|	    SDL_INIT_GAMECONTROLLER
+#endif
+		    );
+#ifdef __SWITCH__
+    nswitch::joy_init();
+    Keymap = new nswitch::Switch_Key_Map();
+    try {
+      Keymap->load_file("sdmc:/switch/cnc/keymap.keys");
+    } catch (std::exception const &)
+    {
+      printf("Unable to load key mapping\n");
+      Keymap = NULL;
+    }
+
+#endif
     SDL_ShowCursor(SDL_DISABLE);
 
     window = SDL_CreateWindow("Vanilla Conquer", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, 0);
@@ -316,11 +338,13 @@ public:
 
     virtual bool LockWait()
     {
+        __atomic_thread_fence (__ATOMIC_ACQUIRE);
         return (SDL_LockSurface(surface) == 0);
     }
 
     virtual bool Unlock()
     {
+	__atomic_thread_fence (__ATOMIC_RELEASE);
         SDL_UnlockSurface(surface);
         return true;
     }

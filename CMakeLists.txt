@@ -89,7 +89,7 @@ endif()
 
 add_definitions(-DENGLISH -DTRUE_FALSE_DEFINED)
 
-if(WIN32 OR CMAKE_CROSSCOMPILING)
+if(WIN32)
     add_definitions(-DWIN32 -D_WINDOWS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE)
 endif()
 
@@ -152,6 +152,37 @@ if(OPENAL)
     find_package(OpenAL REQUIRED)
     list(APPEND VANILLA_LIBS OpenAL::OpenAL)
     set(DSOUND OFF)
+endif()
+
+if (SWITCH)
+  find_program(ELF2NRO elf2nro)
+  find_program(NACPTOOL nacptool)
+  find_program(UAM uam)
+  #target_link_libraries(systemshock nx)
+  #target_link_libraries(systemshock mpg123)
+  #target_link_libraries(systemshock opusfile)
+  #target_link_libraries(systemshock opus)
+  #target_link_libraries(systemshock vorbisfile)
+  #target_link_libraries(systemshock vorbis)
+  #target_link_libraries(systemshock ogg)
+  #target_link_libraries(systemshock modplug)
+  #target_link_libraries(systemshock EGL)
+  #target_link_libraries(systemshock glapi)
+  #target_link_libraries(systemshock drm_nouveau)
+  #target_link_libraries(systemshock nx)
+  #target_link_libraries(systemshock SDL2)
+  list(APPEND VANILLA_LIBS "-lSDL2_ttf -lglapi -lfreetype -lbz2 -lSDL2_image -lpng -lz -ljpeg -lSDL2  -lmodplug -lvorbisfile -lvorbis -logg -lwebp -lEGL -lglapi -ldrm_nouveau -lswitch-utils -lnx")
+  add_custom_command(OUTPUT controltd.nacp
+     COMMAND ${NACPTOOL} --create "vanillatd" "capsterx" "v1" ${CMAKE_BINARY_DIR}/controltd.nacp)
+  add_custom_target(VanillaTD.nro ALL
+	  ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillatd ${CMAKE_BINARY_DIR}/vanillatd.nro --icon=${CMAKE_BINARY_DIR}/../icon.jpg --nacp=${CMAKE_BINARY_DIR}/controltd.nacp - DEPENDS VanillaTD controltd.nacp) 
+
+  add_custom_command(OUTPUT controlra.nacp
+     COMMAND ${NACPTOOL} --create "vanillara" "capsterx" "v1" ${CMAKE_BINARY_DIR}/controlra.nacp)
+  add_custom_target(VanillaRA.nro ALL
+        ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillara ${CMAKE_BINARY_DIR}/vanillara.nro --nacp=${CMAKE_BINARY_DIR}/controlra.nacp - DEPENDS VanillaRA controlra.nacp)
+
+  list(APPEND VANILLA_LIBS "-lSDL2_ttf -lglapi -lfreetype -lbz2 -lSDL2_image -lpng -lz -ljpeg -lSDL2  -lmodplug -lvorbisfile -lvorbis -logg -lwebp -lEGL -lglapi -ldrm_nouveau -lswitch-utils -lnx")
 endif()
 
 add_subdirectory(common)

@@ -454,7 +454,7 @@ void CCDebugString(const char* string)
 
     OutputDebugString(string);
 #else
-    fprintf(stderr, "%s", string);
+    fprintf(stdout, "%s", string);
 #endif
 
 #else

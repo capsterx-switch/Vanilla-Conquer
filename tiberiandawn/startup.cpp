@@ -207,8 +207,17 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE, char* command_line, int comman
 
 #endif // _WIN32
 
+#ifdef __SWITCH__
+#include <switch/init.hpp>
+#include <unistd.h>
+#endif
+
 int main(int argc, char** argv)
 {
+#ifdef __SWITCH__
+  nswitch::init();
+  chdir("sdmc:/switch/cnc");
+#endif
     CCDebugString("C&C95 - Starting up.\n");
 
 #ifdef JAPANESE
@@ -543,6 +552,9 @@ int main(int argc, char** argv)
     chdir(oldpath);
 #endif // NOT_FOR_WIN95
 
+#ifdef __SWITCH__
+    nswitch::deinit();
+#endif
     return (EXIT_SUCCESS);
 }
 
