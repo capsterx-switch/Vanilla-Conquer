@@ -149,6 +149,10 @@ BOOL WINAPI DllMain(HINSTANCE instance, unsigned int fdwReason, void* lpvReserve
  * HISTORY:                                                                                    *
  *   03/20/1995 JLB : Created.                                                                 *
  *=============================================================================================*/
+#ifdef __SWITCH__
+#include <switch/init.hpp>
+#include <unistd.h>
+#endif
 #ifdef REMASTER_BUILD
 // int PASCAL WinMain(HINSTANCE, HINSTANCE, char *, int )
 // PG int PASCAL WinMain ( HINSTANCE instance , HINSTANCE , char * command_line , int command_show )
@@ -166,6 +170,10 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE, char* command_line, int comman
 int main(int argc, char* argv[])
 {
 #endif // _WIN32
+#ifdef __SWITCH__
+  nswitch::init();
+  chdir("sdmc:/switch/redalert/");
+#endif
 
 // printf("in program.\n");getch();
 // printf("ram free = %ld\n",Ram_Free(MEM_NORMAL));getch();
@@ -339,6 +347,16 @@ int main(int argc, char* argv[])
     if (FindFirstFileA("conquer.eng", &wfd) != INVALID_HANDLE_VALUE)
         DeleteFileA("conquer.eng");
 
+#endif
+#ifdef __SWITCH__
+    char buffer[1024];
+    strcpy(buffer, "sdmc:/switch/redalert/CD1/" \
+    ";sdmc:/switch/redalert/CD2/" \
+    ";sdmc:/switch/redalert/CD3/" \
+    ";sdmc:/switch/redalert/CD4/" \
+    ";sdmc:/switch/redalert/RADVD/");
+    CCFileClass::Set_Search_Drives(buffer);
+    CCFileClass::Set_CD_Drive(0);
 #endif
 
     if (Parse_Command_Line(argc, argv)) {
@@ -625,6 +643,9 @@ int main(int argc, char* argv[])
     /*
     **	Restore the current drive and directory.
     */
+#ifdef __SWITCH__
+    nswitch::deinit();
+#endif
     return (EXIT_SUCCESS);
 }
 

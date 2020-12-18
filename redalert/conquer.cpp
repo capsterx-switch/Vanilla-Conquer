@@ -65,6 +65,7 @@
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 #include "function.h"
+#include <string>
 #ifdef _WIN32
 #ifdef WINSOCK_IPX
 #include "wsproto.h"
@@ -3944,6 +3945,45 @@ int Get_CD_Index(int cd_drive, int timeout)
         }
     }
 #else
+    if (cd_drive < 0)
+    {
+      return -1;
+    }
+    auto p = CDFileClass::Get_Search_Path(cd_drive);
+    if (!p)
+    {
+      printf("Unable to find path...\n");
+    }
+    auto path = std::string(p) +  "/CD_LABEL";
+    auto f = fopen(path.c_str(), "r");
+    if (!f)
+    {
+      return -1;
+    }
+    char buff[1024];
+    ssize_t len = read(fileno(f), &buff, sizeof(buff));
+    if (len <= 0)
+    {
+      return -1;
+    }
+    buff[len] = '\0';
+    for (size_t i=len-1; len != 0; --len)
+    {
+      if (buff[i] == ' ' || buff[i] == '\n')
+      {
+        buff[i] = '\0';
+	continue;
+      }
+      break;
+    }
+
+    for (int i = 0; i < _Num_Volumes; i++) {
+        if (!stricmp(_CD_Volume_Label[i], buff))
+	{
+    	  return (i);
+	}
+    }
+    
     return -1;
 #endif
 }
@@ -4072,6 +4112,7 @@ bool Force_CD_Available(int cd_desired) //	ajw
     };
 #endif
 
+
     int new_cd_drive = 0;
     int cd_current;
     int current_drive;
@@ -4091,9 +4132,9 @@ bool Force_CD_Available(int cd_desired) //	ajw
     current_drive = CCFileClass::Get_CD_Drive();
     cd_current = Get_CD_Index(current_drive, 1 * 60);
 
-    //	debugprint("Get_CD_Index just returned %d\n", cd_current);
-    //	debugprint("We are checking for %d\n", cd_desired);
-    //	debugprint("current_drive = %d\n", current_drive);
+    //printf("Get_CD_Index just returned %d\n", cd_current);
+    //printf("We are checking for %d\n", cd_desired);
+    //printf("current_drive = %d\n", current_drive);
 
     if (cd_current >= 0) {
         if (cd_desired == CD_CS_OR_AM) {
@@ -4118,7 +4159,7 @@ bool Force_CD_Available(int cd_desired) //	ajw
     Theme.Stop();
 
     // Check the last drive
-    if (!new_cd_drive) {
+    if (new_cd_drive < 0) {
         /*
         ** Check the last CD drive we used if it's different from the current one
         */
@@ -4157,7 +4198,7 @@ bool Force_CD_Available(int cd_desired) //	ajw
     ** Lordy.  No sign of that blimming CD anywhere. Search all the CD drives
     ** then if we still can't find it prompt the user to insert it.
     */
-    if (!new_cd_drive) {
+    if (new_cd_drive < 0) {
         /*
         ** Small timeout for the first pass through the drives
         */

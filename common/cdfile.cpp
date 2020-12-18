@@ -209,11 +209,19 @@ int CDFileClass::Set_Search_Drives(char* pathlist)
             strcpy(path, ptr);
             switch (path[strlen(path) - 1]) {
             case ':':
+#ifdef _WIN32
             case '\\':
+#else
+            case '/':
+#endif
                 break;
 
             default:
+#ifdef _WIN32
                 strcat(path, "\\");
+#else
+                strcat(path, "/");
+#endif
                 break;
             }
 

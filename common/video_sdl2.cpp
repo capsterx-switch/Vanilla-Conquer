@@ -338,13 +338,11 @@ public:
 
     virtual bool LockWait()
     {
-        __atomic_thread_fence (__ATOMIC_ACQUIRE);
         return (SDL_LockSurface(surface) == 0);
     }
 
     virtual bool Unlock()
     {
-	__atomic_thread_fence (__ATOMIC_RELEASE);
         SDL_UnlockSurface(surface);
         return true;
     }

@@ -61,3 +61,4 @@ savgam*.dat
 
 build
 *.swp
+third_party/mojoAL/mojoal.o

@@ -301,7 +301,7 @@ bool Init_Game(int, char*[])
 #ifndef REMASTER_BUILD
     CCDebugString("C&C95 - About to search for CD drives\n");
 #ifdef __SWITCH__
-    CCFileClass::Set_Search_Drives("sdmc/switch/cnc");
+    CCFileClass::Set_Search_Drives("sdmc:/switch/cnc");
 #endif
     /*
     **	Always try to look at the CD-ROM for data files.

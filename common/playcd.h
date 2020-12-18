@@ -33,6 +33,7 @@
 #define PLAYCD_H
 
 #include <string.h>
+#include "common/cdfile.h"
 
 /***************************************************************************
  * GetCDClass -- object which will return logical CD drive						*
@@ -76,11 +77,16 @@ public:
     ~GetCDClass()
     {
     }
+
     inline int Get_First_CD_Drive(void);
     inline int Get_Next_CD_Drive(void);
     inline int Get_Number_Of_Drives(void)
     {
+#ifdef _WIN32
         return (CDCount);
+#else
+	return CDFileClass::Get_Last_CD_Drive();
+#endif
     };
 };
 
@@ -100,6 +106,7 @@ public:
  *=============================================================================================*/
 inline int GetCDClass::Get_Next_CD_Drive(void)
 {
+#ifdef _WIN32
     if (CDCount) {
         if (CDIndex == CDCount)
             CDIndex = 0;
@@ -107,6 +114,13 @@ inline int GetCDClass::Get_Next_CD_Drive(void)
     } else {
         return (-1);
     }
+#else
+    if (Get_Number_Of_Drives() == CDIndex)
+    {
+      CDIndex = 0;
+    }
+    return CDIndex++;
+#endif
 }
 
 /***************************************************************************
