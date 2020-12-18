@@ -175,12 +175,12 @@ if (SWITCH)
   add_custom_command(OUTPUT controltd.nacp
      COMMAND ${NACPTOOL} --create "vanillatd" "capsterx" "v1" ${CMAKE_BINARY_DIR}/controltd.nacp)
   add_custom_target(VanillaTD.nro ALL
-	  ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillatd ${CMAKE_BINARY_DIR}/vanillatd.nro --icon=${CMAKE_BINARY_DIR}/../icon.jpg --nacp=${CMAKE_BINARY_DIR}/controltd.nacp - DEPENDS VanillaTD controltd.nacp) 
+	  ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillatd ${CMAKE_BINARY_DIR}/vanillatd.nro --icon=${CMAKE_BINARY_DIR}/../icontd.jpg --nacp=${CMAKE_BINARY_DIR}/controltd.nacp - DEPENDS VanillaTD controltd.nacp) 
 
   add_custom_command(OUTPUT controlra.nacp
      COMMAND ${NACPTOOL} --create "vanillara" "capsterx" "v1" ${CMAKE_BINARY_DIR}/controlra.nacp)
   add_custom_target(VanillaRA.nro ALL
-        ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillara ${CMAKE_BINARY_DIR}/vanillara.nro --nacp=${CMAKE_BINARY_DIR}/controlra.nacp - DEPENDS VanillaRA controlra.nacp)
+	  ${ELF2NRO} ${CMAKE_BINARY_DIR}/vanillara ${CMAKE_BINARY_DIR}/vanillara.nro --icon=${CMAKE_BINARY_DIR}/../iconta.jpg --nacp=${CMAKE_BINARY_DIR}/controlra.nacp - DEPENDS VanillaRA controlra.nacp)
 
   list(APPEND VANILLA_LIBS "-lSDL2_ttf -lglapi -lfreetype -lbz2 -lSDL2_image -lpng -lz -ljpeg -lSDL2  -lmodplug -lvorbisfile -lvorbis -logg -lwebp -lEGL -lglapi -ldrm_nouveau -lswitch-utils -lnx")
 endif()
