@@ -100,12 +100,15 @@ static void Put_All(Pipe& pipe, int save_net)
     **	Save the scenario global information.
     */
     pipe.Put(&Scen, sizeof(Scen));
+    pipe.Flush();
 
     /*
     **	Save the map.  The map must be saved first, since it saves the Theater.
     */
+    pipe.Flush();
     if (!save_net)
         Call_Back();
+    pipe.Flush();
     Map.Save(pipe);
 
     if (!save_net)

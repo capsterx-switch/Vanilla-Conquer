@@ -647,6 +647,9 @@ bool Select_Game(bool fade)
             /*
             **	Display menu and fetch selection from player.
             */
+#ifdef __SWITCH__
+            Special.IsFromInstall = false;
+#endif
             if (Special.IsFromInstall)
                 selection = SEL_START_NEW_GAME;
 

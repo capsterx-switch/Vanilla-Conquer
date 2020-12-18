@@ -541,7 +541,7 @@ void WWKeyboardClass::Fill_Buffer_From_System(void)
 
     while (!Is_Buffer_Full() && SDL_PollEvent(&event)) {
 #ifdef __SWITCH__
-        if (Keymap->event(event))
+        if (Keymap && Keymap->event(event))
 	{
           continue;
 	}

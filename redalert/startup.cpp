@@ -152,6 +152,18 @@ BOOL WINAPI DllMain(HINSTANCE instance, unsigned int fdwReason, void* lpvReserve
 #ifdef __SWITCH__
 #include <switch/init.hpp>
 #include <unistd.h>
+#include <switch/keymap.hpp>
+const char * switch_keymap_dir = "redalert";
+
+#define RETURN(x) do {\
+    printf("deinit switch\n"); \
+    nswitch::deinit();\
+    printf("finished deinit\n"); \
+    return (0); \
+  } while(0)
+
+#else
+#define RETURN(x) return(x)
 #endif
 #ifdef REMASTER_BUILD
 // int PASCAL WinMain(HINSTANCE, HINSTANCE, char *, int )
@@ -206,14 +218,14 @@ int main(int argc, char* argv[])
 
         getch();
 #endif //(0)
-        return (EXIT_FAILURE);
+        RETURN (EXIT_FAILURE);
     }
 
 #ifdef _WIN32
 
     if (strstr(command_line, "f:\\projects\\c&c0") != NULL || strstr(command_line, "F:\\PROJECTS\\C&C0") != NULL) {
         MessageBoxA(0, "Playing off of the network is not allowed.", "Red Alert", MB_OK | MB_ICONSTOP);
-        return (EXIT_FAILURE);
+        RETURN (EXIT_FAILURE);
     }
 
     int argc; // Command line argument count
@@ -398,7 +410,7 @@ int main(int argc, char* argv[])
             sprintf(disk_space_message, TEXT_CRITICALLY_LOW); // PG , (INIT_FREE_DISK_SPACE) / (1024 * 1024));
             int reply = MessageBoxA(NULL, disk_space_message, TEXT_SHORT_TITLE, MB_ICONQUESTION | MB_YESNO);
             if (reply == IDNO) {
-                return (EXIT_FAILURE);
+                RETURN (EXIT_FAILURE);
             }
 #endif
         }
@@ -419,7 +431,7 @@ int main(int argc, char* argv[])
 
 #ifdef MPEGMOVIE // Denzil 6/10/98
             if (!InitDDraw())
-                return (EXIT_FAILURE);
+                RETURN (EXIT_FAILURE);
 #else
             bool video_success = false;
             /*
@@ -430,6 +442,7 @@ int main(int argc, char* argv[])
 #else
 
 #ifdef SDL2_BUILD
+	    printf("Set video mode: %d:%d\n", OutputWidth, OutputHeight);
             video_success = static_cast<bool>(Set_Video_Mode(OutputWidth, OutputHeight, 8));
 #else
             if (ScreenHeight == 400) {
@@ -455,7 +468,7 @@ int main(int argc, char* argv[])
                 MessageBoxA(MainWindow, TEXT_VIDEO_ERROR, TEXT_SHORT_TITLE, MB_ICONEXCLAMATION | MB_OK);
 #endif
                 // if (Palette) delete Palette;
-                return (EXIT_FAILURE);
+                RETURN (EXIT_FAILURE);
             }
 
             if (ScreenWidth == 320) {
@@ -483,7 +496,7 @@ int main(int argc, char* argv[])
 #ifdef _WIN32
                     MessageBoxA(MainWindow, TEXT_DDRAW_ERROR, TEXT_SHORT_TITLE, MB_ICONEXCLAMATION | MB_OK);
 #endif
-                    return (EXIT_FAILURE);
+                    RETURN (EXIT_FAILURE);
                 }
 
                 /*
@@ -596,7 +609,7 @@ int main(int argc, char* argv[])
             Main_Game(argc, argv);
 
             if (RunningAsDLL) { // PG
-                return (EXIT_SUCCESS);
+                RETURN (EXIT_SUCCESS);
             }
 
 #ifdef MPEGMOVIE // Denzil 6/15/98
@@ -632,7 +645,7 @@ int main(int argc, char* argv[])
             } while (ReadyToQuit == 1);
 #endif
 
-            return (EXIT_SUCCESS);
+            RETURN (EXIT_SUCCESS);
         } else {
             if (!RunningFromEditor) {
                 puts(TEXT_SETUP_FIRST);
@@ -643,10 +656,7 @@ int main(int argc, char* argv[])
     /*
     **	Restore the current drive and directory.
     */
-#ifdef __SWITCH__
-    nswitch::deinit();
-#endif
-    return (EXIT_SUCCESS);
+    RETURN (EXIT_SUCCESS);
 }
 
 /* Initialize DirectDraw and surfaces */

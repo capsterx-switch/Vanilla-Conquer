@@ -210,6 +210,7 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE, char* command_line, int comman
 #ifdef __SWITCH__
 #include <switch/init.hpp>
 #include <unistd.h>
+const char * switch_keymap_dir = "cnc";
 #endif
 
 int main(int argc, char** argv)

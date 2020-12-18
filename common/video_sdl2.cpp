@@ -91,6 +91,7 @@ SurfaceMonitorClass& AllSurfaces = AllSurfacesDummy; // List of all direct draw 
 #include <switch/joystick.hpp>
 #include <switch/keymap.hpp>
 nswitch::Switch_Key_Map * Keymap=nullptr;
+extern const char * switch_keymap_dir;
 #endif
 
 bool Set_Video_Mode(int w, int h, int bits_per_pixel)
@@ -102,15 +103,20 @@ bool Set_Video_Mode(int w, int h, int bits_per_pixel)
 		    );
 #ifdef __SWITCH__
     nswitch::joy_init();
-    Keymap = new nswitch::Switch_Key_Map();
+    Keymap = new nswitch::Switch_Key_Map(); 
+    auto path = std::string("sdmc:/switch/") + switch_keymap_dir + "/keymap.keys";
+    printf("Loading keymapping from %s\n", path.c_str());
     try {
-      Keymap->load_file("sdmc:/switch/cnc/keymap.keys");
+      Keymap->load_file(path);
     } catch (std::exception const &)
     {
-      printf("Unable to load key mapping\n");
+      printf("Unable to load key mapping: %s\n", path.c_str());
       Keymap = NULL;
     }
-
+    SDL_Event e;
+    while (SDL_PollEvent(&e)) {
+      printf("Eating event: %d\n", e.type);
+    }
 #endif
     SDL_ShowCursor(SDL_DISABLE);
 
