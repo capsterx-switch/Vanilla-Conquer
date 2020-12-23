@@ -29,6 +29,7 @@ cd build
 cmake -DOPENAL_LIBRARY=$DIR/third_party/mojoAL/mojoal.o \
       -DOPENAL_INCLUDE_DIR=$DIR/third_party/mojoAL/AL \
       -DCMAKE_TOOLCHAIN_FILE=${SWITCH_UTILS}/cmake/Toolchain-cross-Switch.cmake  \
+      -DCMAKE_BUILD_TYPE=Release \
       ..
 make VERBOSE=1
 #PATH=$DEVKITPRO/devkitA64/aarch64-none-elf/bin:$PATH make
