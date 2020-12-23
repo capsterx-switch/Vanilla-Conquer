@@ -760,7 +760,7 @@ unsigned long ConnectionClass::Time(void)
     Otherwise, use the DOS timer
     ------------------------------------------------------------------------*/
     else {
-        ftime(&mytime);
+        //ftime(&mytime);
         msec = (unsigned long)mytime.time * 1000L + (unsigned long)mytime.millitm;
         return ((msec / 100) * 6);
     }
@@ -770,7 +770,7 @@ unsigned long ConnectionClass::Time(void)
     /*------------------------------------------------------------------------
     If the Westwood library isn't being used, use the DOS timer.
     ------------------------------------------------------------------------*/
-    ftime(&mytime);
+    //ftime(&mytime);
     msec = (unsigned long)mytime.time * 1000L + (unsigned long)mytime.millitm;
     return ((msec / 100) * 6);
 
