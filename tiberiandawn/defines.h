@@ -1639,7 +1639,7 @@ typedef enum RadioMessageType : unsigned char
 **	with cell resolution. The COORD type is used for map coordinates that
 **	have a lepton resolution.
 */
-typedef unsigned long COORDINATE;
+typedef unsigned COORDINATE;
 typedef signed short CELL;
 
 typedef unsigned short TARGET;
@@ -1921,6 +1921,11 @@ inline TextPrintType operator~(TextPrintType a)
 {
     return static_cast<TextPrintType>(~static_cast<int>(a));
 }
+
+// Standard button text print flags.
+#define TPF_BUTTON  (TPF_CENTER | TPF_6PT_GRAD | TPF_NOSHADOW)
+#define TPF_EBUTTON (TPF_CENTER | TPF_EFNT | TPF_NOSHADOW)
+#define TPF_TEXT    (TPF_6PT_GRAD | TPF_NOSHADOW)
 
 /**********************************************************************
 **	These control the maximum number of objects in the game. Make sure that these

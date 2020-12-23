@@ -141,14 +141,12 @@ public:
 #include "ramfile.h"
 #include "lcw.h"
 #include "lcwpipe.h"
-#include "lzopipe.h"
 #include "shapipe.h"
 #include "b64pipe.h"
 #include "straw.h"
 #include "xstraw.h"
 #include "b64straw.h"
 #include "lcwstraw.h"
-#include "lzostraw.h"
 #include "shastraw.h"
 #include "rndstraw.h"
 
@@ -230,6 +228,7 @@ CELL Coord_Cell(COORDINATE coord);
 #include "textbtn.h"
 #include "statbtn.h"
 #include "slider.h"
+#include "dialog.h"
 #include "list.h"
 #include "drop.h"
 #include "cheklist.h"
@@ -502,41 +501,6 @@ void Debug_Key(unsigned input);
 void Self_Regulate(void);
 
 /*
-**	DIALOG.CPP
-*/
-void Draw_Caption(int text, int x, int y, int w);
-void Draw_Caption(char const* text, int x, int y, int w);
-int Format_Window_String(char* string, int maxlinelen, int& width, int& height);
-extern void Dialog_Box(int x, int y, int w, int h);
-void Conquer_Clip_Text_Print(char const*,
-                             unsigned x,
-                             unsigned y,
-                             RemapControlType* fore,
-                             unsigned back = (unsigned)TBLACK,
-                             TextPrintType flag = TPF_8POINT | TPF_DROPSHADOW,
-                             int width = -1,
-                             int const* tabs = 0);
-void Draw_Box(int x, int y, int w, int h, BoxStyleEnum up, bool filled);
-int Dialog_Message(char* errormsg, ...);
-void Window_Box(WindowNumberType window, BoxStyleEnum style);
-void Fancy_Text_Print(char const* text,
-                      unsigned x,
-                      unsigned y,
-                      RemapControlType* fore,
-                      unsigned back,
-                      TextPrintType flag,
-                      ...);
-void Fancy_Text_Print(int text, unsigned x, unsigned y, RemapControlType* fore, unsigned back, TextPrintType flag, ...);
-void Simple_Text_Print(char const* text,
-                       unsigned x,
-                       unsigned y,
-                       RemapControlType* fore,
-                       unsigned back,
-                       TextPrintType flag);
-void Plain_Text_Print(int text, unsigned x, unsigned y, unsigned fore, unsigned back, TextPrintType flag, ...);
-void Plain_Text_Print(char const* text, unsigned x, unsigned y, unsigned fore, unsigned back, TextPrintType flag, ...);
-
-/*
 **	DISPLAY.CPP
 */
 ObjectClass* Best_Object_With_Action(DynamicVectorClass<ObjectClass*>& objects, const ObjectClass* object);
@@ -622,7 +586,6 @@ int Load_Picture(char const* filename,
 void* Conquer_Build_Fading_Table(PaletteClass const& palette, void* dest, int color, int frac);
 void* Small_Icon(void const* iconptr, int iconnum);
 void Set_Window(int window, int x, int y, int w, int h);
-void* Load_Alloc_Data(FileClass& file);
 long Load_Uncompress(FileClass& file, BuffType& uncomp_buff, BuffType& dest_buff, void* reserved_data);
 long Translucent_Table_Size(int count);
 void* Build_Translucent_Table(PaletteClass const& palette, TLucentType const* control, int count, void* buffer);
