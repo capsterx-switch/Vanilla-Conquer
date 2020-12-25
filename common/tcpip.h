@@ -43,7 +43,6 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-#include <sys/socket.h>
 #include <netinet/in.h>
 #endif
 
