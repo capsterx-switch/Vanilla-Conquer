@@ -1,4 +1,3 @@
-//
 // Copyright 2020 Electronic Arts Inc.
 //
 // TiberianDawn.DLL and RedAlert.dll and corresponding source code is free
@@ -261,7 +260,7 @@ void RandomStraw::Scramble_Seed(void)
     SHAEngine sha;
 
     for (int index = 0; index < sizeof(Random); index++) {
-        char digest[20];
+        char digest[SHAEngine::Digest_Size()];
 
         sha.Hash(&Random[0], sizeof(Random));
         sha.Result(digest);

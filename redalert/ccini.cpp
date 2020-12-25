@@ -137,7 +137,7 @@ int CCINIClass::Load(Straw& file, bool withdigest)
         /*
         **	If a digest is present, fetch it.
         */
-        unsigned char digest[20];
+        unsigned char digest[SHAEngine::Digest_Size()];
         int len = Get_UUBlock("Digest", digest, sizeof(digest));
         if (len > 0) {
             Clear("Digest");

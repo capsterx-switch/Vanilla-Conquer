@@ -71,7 +71,7 @@ public:
 
     void Hash(void const* data, int32_t length);
 
-    static int Digest_Size(void)
+    static int constexpr Digest_Size(void)
     {
         return (sizeof(SHADigest));
     }

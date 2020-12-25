@@ -4,3 +4,12 @@
 [submodule "third_party/mojoAL"]
 	path = third_party/mojoAL
 	url = https://github.com/spurious/mojoAL-mirror.git
+[submodule "third_party/blake3"]
+	path = third_party/blake3
+	url = https://github.com/BLAKE3-team/BLAKE3.git
+[submodule "BLAKE2"]
+	path = BLAKE2
+	url = https://github.com/BLAKE2/BLAKE2.git
+[submodule "common/blake2"]
+	path = common/blake2
+	url = https://github.com/BLAKE2/BLAKE2.git

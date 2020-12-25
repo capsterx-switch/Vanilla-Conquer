@@ -638,8 +638,8 @@ template <class T> bool MixFileClass<T>::Cache(Buffer const* buffer)
         **	return with the "failure to cache" error code.
         */
         if (IsDigest) {
-            char digest1[20];
-            char digest2[20];
+            char digest1[SHAEngine::Digest_Size()];
+            char digest2[SHAEngine::Digest_Size()];
             sha.Result(digest2);
             fstraw.Get(digest1, sizeof(digest1));
             if (memcmp(digest1, digest2, sizeof(digest1)) != 0) {

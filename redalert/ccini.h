@@ -113,7 +113,7 @@ private:
     **	This is the message digest (SHA) of the INI database that was embedded as part of
     **	the INI file.
     */
-    unsigned char Digest[20];
+    unsigned char Digest[SHAEngine::Digest_Size()];
 };
 
 #endif
