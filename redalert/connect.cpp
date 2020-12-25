@@ -745,35 +745,19 @@ int ConnectionClass::Service_Receive_Queue(void)
  *=========================================================================*/
 unsigned long ConnectionClass::Time(void)
 {
-    static struct timeb mytime; // DOS time
-    unsigned long msec;
 
 #ifdef WWLIB32_H
-
-    /*------------------------------------------------------------------------
-    If the Westwood timer system has been activated, use TickCount's value
-    ------------------------------------------------------------------------*/
-    if (TimerSystemOn) {
-        return (TickCount); // Westwood Library time
-    }
-    /*------------------------------------------------------------------------
-    Otherwise, use the DOS timer
-    ------------------------------------------------------------------------*/
-    else {
-        //ftime(&mytime);
-        msec = (unsigned long)mytime.time * 1000L + (unsigned long)mytime.millitm;
-        return ((msec / 100) * 6);
-    }
-
+    return WinTickCount.Time();
 #else
+    static struct timeb mytime; // DOS time
+    unsigned long msec;
 
     /*------------------------------------------------------------------------
     If the Westwood library isn't being used, use the DOS timer.
     ------------------------------------------------------------------------*/
-    //ftime(&mytime);
+    ftime(&mytime);
     msec = (unsigned long)mytime.time * 1000L + (unsigned long)mytime.millitm;
     return ((msec / 100) * 6);
-
 #endif
 
 } /* end of Time */
