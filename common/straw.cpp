@@ -38,6 +38,7 @@
 #include "straw.h"
 #include <stddef.h>
 #include <string.h>
+#include <stdio.h>
 
 /***********************************************************************************************
  * Straw::~Straw -- Destructor for a straw segment.                                            *
