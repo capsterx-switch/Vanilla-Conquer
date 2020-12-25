@@ -428,6 +428,10 @@ long RawFileClass::Read(void* buffer, long size)
     while (size > 0) {
         clearerr(Handle);
         bytesread = fread(buffer, 1, size, Handle);
+        if (bytesread == 0)
+	{
+            break;
+	}
         if (ferror(Handle)) {
             size -= bytesread;
             total += bytesread;
@@ -436,8 +440,6 @@ long RawFileClass::Read(void* buffer, long size)
         }
         size -= bytesread;
         total += bytesread;
-        if (bytesread == 0)
-            break;
     }
     bytesread = total;
 
