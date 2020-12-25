@@ -246,7 +246,7 @@ int RawFileClass::Open(int rights)
             break;
 
         case READ | WRITE:
-            Handle = fopen(Filename, "rwb");
+            Handle = fopen(Filename, "w+b");
             break;
         }
 
