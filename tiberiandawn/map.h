@@ -42,6 +42,10 @@
 class MapClass : public GScreenClass
 {
 public:
+    MapClass(void){};
+    MapClass(NoInitClass const& x)
+        : GScreenClass(x)
+        , Array(x){};
     /*
     ** Initialization
     */
@@ -122,7 +126,31 @@ public:
     */
     long TotalValue;
 
+    CellClass& operator[](unsigned index)
+    {
+        return Array[index];
+    };
+
+    CellClass const& operator[](unsigned index) const
+    {
+        return Array[index];
+    };
+
+    int ID(CellClass const* ptr)
+    {
+        return (Array.ID(ptr));
+    };
+    int ID(CellClass const& ptr)
+    {
+        return (Array.ID(ptr));
+    };
+
 protected:
+    /*
+    **	This is the array of cell objects.
+    */
+    VectorClass<CellClass> Array;
+
     /*
     **	These are the size dimensions of the underlying array of cell objects.
     **	This is the dimensions of the "map" that the tactical view is

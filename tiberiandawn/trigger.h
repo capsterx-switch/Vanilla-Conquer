@@ -118,7 +118,12 @@ public:
     **	Constructor/Destructor
     */
     TriggerClass(void);
+    TriggerClass(NoInitClass const& x)
+    {
+    }
     ~TriggerClass(void);
+
+    void Load();
 
     /*
     **	Initialization: clears all triggers in preparation for new scenario
@@ -143,8 +148,6 @@ public:
     {
         return "Triggers";
     };
-    bool Load(FileClass& file);
-    bool Save(FileClass& file);
     void Code_Pointers(void);
     void Decode_Pointers(void);
 
@@ -191,6 +194,10 @@ public:
     **	Overloaded operators
     */
     static void* operator new(size_t size);
+    static void* operator new(size_t, void* ptr)
+    {
+        return (ptr);
+    };
     static void operator delete(void* ptr);
 
     /*
