@@ -112,13 +112,13 @@ public:
     **	next object in the cell list. The objects in this list are not in any
     **	significant order.
     */
-    ObjectClass* Next;
+    ObjectClass * Next;
 
     /*
     ** Every object can be assigned a trigger; the same trigger can be assigned
     ** to multiple objects.
     */
-    TriggerClass* Trigger;
+    TriggerClass * Trigger;
 
     /*
     **	This is the current strength of this object.
@@ -135,6 +135,8 @@ public:
     **	Constructor & destructors.
     */
     ObjectClass(void);
+    ObjectClass(NoInitClass const& x)
+        : AbstractClass(x){};
     virtual ~ObjectClass(void){};
     virtual RTTIType What_Am_I(void) const;
     int operator<(ObjectClass const& object) const

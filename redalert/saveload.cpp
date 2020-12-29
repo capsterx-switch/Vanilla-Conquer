@@ -417,25 +417,25 @@ bool Save_Game(const char* file_name, const char* descr)
     **	process by using the data just as it is written to disk.
     */
     SHAPipe sha;
-    BlowPipe bpipe(BlowPipe::ENCRYPT);
-    LCWPipe pipe(LCWPipe::COMPRESS, SAVE_BLOCK_SIZE);
-    bpipe.Key(&FastKey, BlowfishEngine::MAX_KEY_LENGTH);
+    //BlowPipe bpipe(BlowPipe::ENCRYPT);
+    //LCWPipe pipe(LCWPipe::COMPRESS, SAVE_BLOCK_SIZE);
+    //bpipe.Key(&FastKey, BlowfishEngine::MAX_KEY_LENGTH);
 
     sha.Put_To(fpipe);
-    bpipe.Put_To(sha);
-    pipe.Put_To(bpipe);
-    Put_All(pipe, save_net);
+    //bpipe.Put_To(sha);
+    //pipe.Put_To(bpipe);
+    Put_All(sha, save_net);
 
     /*
     **	Output the real final message digest. This is the one that is of
     **	the data image as it exists on the disk.
     */
-    pipe.Flush();
+    sha.Flush();
     file.Seek(pos, SEEK_SET);
     sha.Result(digest);
     fpipe.Put(digest, sizeof(digest));
 
-    pipe.End();
+    sha.End();
 
     Decode_All_Pointers();
 
@@ -603,12 +603,12 @@ bool Load_Game(const char* file_name)
     **	Set up the pipe so that the scenario data can be read.
     */
     file.Seek(pos, SEEK_SET);
-    BlowStraw bstraw(BlowStraw::DECRYPT);
-    LCWStraw straw(LCWStraw::DECOMPRESS, SAVE_BLOCK_SIZE);
+    //BlowStraw bstraw(BlowStraw::DECRYPT);
+    //LCWStraw straw(LCWStraw::DECOMPRESS, SAVE_BLOCK_SIZE);
 
-    bstraw.Key(&FastKey, BlowfishEngine::MAX_KEY_LENGTH);
-    bstraw.Get_From(fstraw);
-    straw.Get_From(bstraw);
+    //bstraw.Key(&FastKey, BlowfishEngine::MAX_KEY_LENGTH);
+    //bstraw.Get_From(fstraw);
+    //straw.Get_From(bstraw);
 
     /*
     **	Clear the scenario so we start fresh; this calls the Init_Clear() routine
@@ -626,6 +626,7 @@ bool Load_Game(const char* file_name)
     /*
     **	Load the scenario global information.
     */
+    auto && straw = fstraw;
     straw.Get(&Scen, sizeof(Scen));
 
     /*

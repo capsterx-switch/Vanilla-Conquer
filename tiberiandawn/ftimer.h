@@ -49,6 +49,8 @@ public:
     {
         Set(set);
     };
+    
+    TCountDownTimerClass(NoInitClass const &){};
 
     // No destructor.
     ~TCountDownTimerClass(void)

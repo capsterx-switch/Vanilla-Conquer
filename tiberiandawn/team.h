@@ -56,12 +56,12 @@ public:
     /*
     **	This specifies the type of team this is.
     */
-    TeamTypeClass const* const Class;
+    TeamTypeClass const * const Class;
 
     /*
     **	This specifies the owner of this team.
     */
-    HouseClass* const House;
+    HouseClass * const House;
 
     /*
     **	This flag forces the team into active state regardless of whether it
@@ -172,6 +172,14 @@ public:
         Member = 0;
         IsAltered = true;
     };
+
+    TeamClass(NoInitClass const& x)
+        : AbstractClass(x)
+        , SuspendTimer(x)
+	, Class(this->Class)
+	, House(this->House)
+	{};
+
     TeamClass(TeamTypeClass const* team, HouseClass* owner);
     virtual ~TeamClass(void);
     virtual RTTIType What_Am_I(void) const
@@ -179,6 +187,10 @@ public:
         return RTTI_TEAM;
     };
     static void operator delete(void* ptr);
+    static void* operator new(size_t, void* ptr)
+    {
+        return (ptr);
+    };
     static void* operator new(size_t size);
     static void Init(void);
     static void Suspend_Teams(int priority);
@@ -188,8 +200,6 @@ public:
     /*
     **	File I/O.
     */
-    bool Load(FileClass& file);
-    bool Save(FileClass& file);
     void Code_Pointers(void);
     void Decode_Pointers(void);
 
@@ -242,7 +252,7 @@ private:
     /*
     **	Points to the first member in the list of members for this team.
     */
-    FootClass* Member;
+    FootClass * Member;
 
     unsigned char Quantity[TeamTypeClass::MAX_TEAM_CLASSCOUNT];
 
@@ -259,11 +269,6 @@ private:
     **	will be created more than the others.
     */
     static unsigned char Success[TEAMTYPE_MAX];
-
-    /*
-    ** This contains the value of the Virtual Function Table Pointer
-    */
-    static void* VTable;
 };
 
 #endif

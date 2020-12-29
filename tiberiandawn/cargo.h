@@ -51,6 +51,7 @@ public:
         Quantity = 0;
         CargoHold = 0;
     };
+    CargoClass(NoInitClass const &){}
 
         /*---------------------------------------------------------------------
         **	Member function prototypes.

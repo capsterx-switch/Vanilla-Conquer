@@ -265,9 +265,7 @@ template <class T> int TFixedIHeapClass<T>::Save(FileClass& file)
         /*
         ** Save the object itself
         */
-        if (!Ptr(i)->Save(file)) {
-            return (false);
-        }
+        file.Write(Ptr(i), sizeof(T));
     }
 
     return (true);
@@ -328,9 +326,8 @@ template <class T> int TFixedIHeapClass<T>::Load(FileClass& file)
         /*
         ** Load the object
         */
-        if (!ptr->Load(file)) {
-            return (false);
-        }
+        file.Read(ptr, sizeof(T));
+        new (ptr) T(NoInitClass());
     }
 
     return (true);

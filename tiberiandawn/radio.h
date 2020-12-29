@@ -79,6 +79,8 @@ public:
         Radio = 0;
         LastMessage = RADIO_STATIC;
     };
+    RadioClass(NoInitClass const & x)
+      : MissionClass(x) {}
     virtual ~RadioClass(void){};
 
     /*---------------------------------------------------------------------

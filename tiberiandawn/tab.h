@@ -42,6 +42,8 @@ class TabClass : public SidebarClass
 {
 public:
     TabClass(void);
+    TabClass(NoInitClass const & x)
+      : SidebarClass(x){}
 
     virtual void AI(KeyNumType& input, int x, int y);
     virtual void Draw_It(bool complete = false);

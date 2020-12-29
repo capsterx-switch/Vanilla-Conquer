@@ -62,6 +62,7 @@ public:
             FlashCountPerPlayer[i] = 0;
         }
     }
+    FlasherClass(NoInitClass const &) {}
 #ifdef CHEAT_KEYS
     void Debug_Dump(MonoClass* mono) const;
 #endif

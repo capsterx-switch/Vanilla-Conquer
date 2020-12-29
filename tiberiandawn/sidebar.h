@@ -107,6 +107,8 @@ public:
     };
 
     SidebarClass(void);
+    SidebarClass(NoInitClass const& x)
+      : PowerClass(x) {}
 
     /*
     ** Initialization

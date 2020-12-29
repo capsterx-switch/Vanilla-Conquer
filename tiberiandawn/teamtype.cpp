@@ -67,11 +67,6 @@ char const* TeamTypeClass::TMissions[TMISSION_COUNT] = {
     "Unload",
 };
 
-/*
-** This contains the value of the Virtual Function Table Pointer
-*/
-void* TeamTypeClass::VTable;
-
 /***********************************************************************************************
  * TeamTypeClass::Validate -- validates teamtype pointer													  *
  *                                                                                             *
@@ -153,13 +148,7 @@ TeamTypeClass::TeamTypeClass(void)
  *=========================================================================*/
 void TeamTypeClass::Init(void)
 {
-    TeamTypeClass* ptr;
-
     TeamTypes.Free_All();
-
-    ptr = new TeamTypeClass();
-    VTable = ((void**)(((char*)ptr) + sizeof(AbstractTypeClass) - 4))[0];
-    delete ptr;
 }
 
 /***************************************************************************

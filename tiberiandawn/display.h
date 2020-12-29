@@ -121,6 +121,8 @@ public:
 
     //-------------------------------------------------------------------------
     DisplayClass(void);
+    DisplayClass(NoInitClass const & x)
+      : MapClass(x){}
 
     virtual void Read_INI(char* buffer);
     void Write_INI(char* buffer);

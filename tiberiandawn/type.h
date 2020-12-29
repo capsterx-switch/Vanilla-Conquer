@@ -37,6 +37,7 @@
 
 #include "mission.h"
 #include "target.h"
+#include "noinit.h"
 
 class MapEditClass;
 class HouseClass;
@@ -209,6 +210,9 @@ public:
                    PlayerColorType remapcolor,
                    unsigned char const* remap,
                    char prefix);
+    HouseTypeClass(NoInitClass const&)
+    {
+    }
 
     static HousesType From_Name(char const* name);
     static HouseTypeClass const& As_Reference(HousesType house);
@@ -243,6 +247,7 @@ public:
     int Name;
 
     AbstractTypeClass(void){};
+    AbstractTypeClass(NoInitClass const&){};
     AbstractTypeClass(int name, char const* ini);
     virtual RTTIType What_Am_I(void) const;
 
@@ -353,6 +358,10 @@ public:
                     char const* name,
                     ArmorType armor,
                     unsigned short strength);
+    ObjectTypeClass(NoInitClass const& x)
+        : AbstractTypeClass(x)
+    {
+    }
 
     static void One_Time(void);
 
@@ -524,6 +533,10 @@ public:
     WeaponType Secondary;
 
     //--------------------------------------------------------------------
+    TechnoTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     TechnoTypeClass(int name,
                     char const* ininame,
                     unsigned char level,
@@ -732,6 +745,10 @@ public:
     /*---------------------------------------------------------------------------
     **	This is the building type explicit constructor.
     */
+    BuildingTypeClass(NoInitClass const& x)
+        : TechnoTypeClass(x)
+    {
+    }
     BuildingTypeClass(StructType type,
                       int name,
                       char const* ininame,
@@ -988,6 +1005,10 @@ public:
     /*
     **	This is the explicit unit class constructor.
     */
+    UnitTypeClass(NoInitClass const& x)
+        : TechnoTypeClass(x)
+    {
+    }
     UnitTypeClass(UnitType type,
                   int name,
                   char const* ininame,
@@ -1142,6 +1163,10 @@ public:
     /*
     **	This is the explicit unit class constructor.
     */
+    InfantryTypeClass(NoInitClass const& x)
+        : TechnoTypeClass(x)
+    {
+    }
     InfantryTypeClass(InfantryType type,
                       int name,
                       char const* ininame,
@@ -1327,6 +1352,10 @@ public:
     int Range;
 
     //---------------------------------------------------------------------
+    BulletTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     BulletTypeClass(BulletType type,
                     char const* ininame,
                     bool is_high,
@@ -1423,6 +1452,10 @@ public:
     unsigned char Theater;
 
     //----------------------------------------------------------------
+    TerrainTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     TerrainTypeClass(TerrainType terrain,
                      int theater,
                      COORDINATE centerbase,
@@ -1516,6 +1549,8 @@ public:
     char const* AltIcons;
 
     //----------------------------------------------------------
+    TemplateTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x){};
     TemplateTypeClass(TemplateType iconset,
                       int theater,
                       char const* ininame,
@@ -1712,6 +1747,10 @@ public:
     AnimType VirtualAnim;
 
     //---------------------------------------------------------------------------
+    AnimTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     AnimTypeClass(AnimType anim,
                   char const* name,
                   int size,
@@ -1798,6 +1837,10 @@ public:
     unsigned char ROT;
     MissionType Mission;
 
+    AircraftTypeClass(NoInitClass const& x)
+        : TechnoTypeClass(x)
+    {
+    }
     AircraftTypeClass(AircraftType airtype,
                       int name,
                       char const* ininame,
@@ -1947,6 +1990,10 @@ public:
     unsigned IsRadarVisible : 1;
 
     //----------------------------------------------------------
+    OverlayTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     OverlayTypeClass(OverlayType iconset,
                      char const* ininame,
                      int fullname,
@@ -2034,6 +2081,10 @@ public:
     unsigned IsBib : 1;
 
     //----------------------------------------------------------
+    SmudgeTypeClass(NoInitClass const& x)
+        : ObjectTypeClass(x)
+    {
+    }
     SmudgeTypeClass(SmudgeType smudge,
                     char const* ininame,
                     int fullname,

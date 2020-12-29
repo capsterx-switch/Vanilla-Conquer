@@ -51,10 +51,18 @@ public:
     **	Constructors and destructors.
     */
     static void* operator new(size_t size);
+    static void* operator new(size_t, void* ptr)
+    {
+        return (ptr);
+    };
     static void operator delete(void* ptr);
     SmudgeClass(SmudgeType type, COORDINATE pos = UINT_MAX, HousesType house = HOUSE_NONE);
     SmudgeClass(void)
         : Class(0){};
+    SmudgeClass(NoInitClass const& x)
+        : ObjectClass(x)
+	, Class(this->Class)
+    {}
     operator SmudgeType(void) const
     {
         return Class->Type;
@@ -80,8 +88,6 @@ public:
     {
         return "SMUDGE";
     };
-    bool Load(FileClass& file);
-    bool Save(FileClass& file);
     virtual void Code_Pointers(void);
     virtual void Decode_Pointers(void);
 
@@ -105,18 +111,13 @@ private:
     /*
     **	This is a pointer to the template object's class.
     */
-    SmudgeTypeClass const* const Class;
+    SmudgeTypeClass const * const Class;
 
     /*
     ** Some additional padding in case we need to add data to the class and maintain backwards compatibility for
     *save/load
     */
     unsigned char SaveLoadPadding[8];
-
-    /*
-    ** This contains the value of the Virtual Function Table Pointer
-    */
-    static void* VTable;
 };
 
 #endif

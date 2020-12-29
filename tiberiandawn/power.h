@@ -48,6 +48,8 @@ public:
     int PowLineWidth;
 
     PowerClass();
+    PowerClass(NoInitClass const & x)
+      : RadarClass(x){}
 
     /*
     ** Initialization
